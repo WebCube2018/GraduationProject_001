@@ -1,0 +1,21 @@
+{{ include("header.twig") }}
+    <thead>
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">email</th>
+            <th scope="col">name</th>
+            <th scope="col">phone</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+            <tr>
+                <th scope="row">{{ user.id }}</th>
+                <td>{{ user.email }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.phone }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+
+{{ include("footer.twig") }}

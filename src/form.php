@@ -1,6 +1,6 @@
 <?php
 
-require_once "confPDO.php";
+require_once "config.php";
 require_once "function.php";
 
 $data = connect();
@@ -9,5 +9,9 @@ $data = connect();
 //Если заказ добавлен отправим письмо
 if ($data) {
     $res = sendOrder((int)$data["order"]);
-    echo $res;
+    #---------------------------НАЧАЛО ОТЛАДКА---------------------------#
+    echo "<pre>";
+    print_r($res);
+    echo "</pre>";
+    #---------------------------КОНЕЦ ОТЛАДКА----------------------------#;
 }

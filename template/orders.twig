@@ -1,0 +1,33 @@
+{{ include("header.twig") }}
+
+<thead>
+<tr>
+    <th scope="col">id</th>
+    <th scope="col">user_id</th>
+    <th scope="col">comments<th>
+    <th scope="col">payment</th>
+    <th scope="col">house</th>
+    <th scope="col">appart</th>
+    <th scope="col">housing</th>
+    <th scope="col">floor</th>
+    <th scope="col">call_back</th>
+</tr>
+</thead>
+<tbody>
+    {% for order in orders %}
+        <tr>
+            <th scope="row">{{ order.id }}</th>
+            <td>{{ order.user_id }}</td>
+            <td>{{ order.comments }}</td>
+            <td>{{ order.payment }}</td>
+            <td>{{ order.street }}</td>
+            <td>{{ order.house }}</td>
+            <td>{{ order.appart }}</td>
+            <td>{{ order.housing }}</td>
+            <td>{{ order.floor }}</td>
+            <td>{{ order.call_back }}</td>
+        </tr>
+    {% endfor %}
+</tbody>
+
+{{ include("footer.twig") }}

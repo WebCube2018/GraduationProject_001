@@ -1,5 +1,7 @@
 **Админ панель**
 
-- Список пользователей /admin/users.php
-- Список заказов /admin/orders.php
+- Список пользователей /admin/users/
+- Список заказов /admin/orders/
 
+**Файл настроек**
+- /src/config.php

@@ -1,5 +1,7 @@
 <?php
 
+require_once $_SERVER["DOCUMENT_ROOT"] . "/vendor/autoload.php";
+
 //Подключение PDO
 function connect()
 {
@@ -103,9 +105,7 @@ function sendOrder($orderId)
     $stm->execute();
     $countOrders = $stm->fetch(PDO::FETCH_ASSOC);
 
-    $file = 'orders.txt';
-    $current = file_get_contents($file);
-
+    $current = "";
     $current .= date("Y-m-d H:i:s") . "\n";
     $current .= "Ваш заказ будет доставлен по адресу:" . " улица " . $order["street"] . " Дом " . $order["house"]
         . " Корпус " . $order["appart"] . " Квартира " . $order["housing"] . " Этаж " . $order["floor"] . "\n";
@@ -117,9 +117,39 @@ function sendOrder($orderId)
     }
 
     $current .= "Спасибо - это ваш " . $countOrders["orders_count"] . " заказ" . "\n\n\n";
-    // Пишем содержимое  в файл
-    file_put_contents($file, $current, LOCK_EX);
 
-    $result = "Заказ № " . $order["id"] . " выполнен сообщение отправили Вам текст файл";
+    $themesMail = "Заказ № " . $order["id"] . " от " . date("Y-m-d H:i:s") . "\n";
+    $result = sendmail($themesMail, $current);
+
+//    $result = "Заказ № " . $order["id"] . " выполнен сообщение отправили менеджеру на почту";
+
     return $result;
+}
+
+function sendmail($themesMail, $current)
+{
+    $transport = (new Swift_SmtpTransport(MAIL_SMTP, MAIL_PORT, "SSL"))
+        ->setUsername(MAIL_USER_NAME)
+        ->setPassword(MAIL_PASSWORD)
+    ;
+
+    $mailer = new Swift_Mailer($transport);
+
+    $message = (new Swift_Message($themesMail))
+        ->setFrom([MAIL_USER_NAME => 'ученик loftSchool'])
+        ->setTo([EMAIL_USER])
+        ->setBody($current)
+    ;
+
+    $result = $mailer->send($message);
+
+    return $result;
+}
+
+function loadTwig(string $fileName, array $data)
+{
+    $loader = new \Twig\Loader\FilesystemLoader($_SERVER["DOCUMENT_ROOT"] . "/template");
+    $twig = new \Twig\Environment($loader);
+
+    echo $twig->render($fileName.'.twig', $data);
 }
